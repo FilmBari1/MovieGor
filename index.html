@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head> 
-    <meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
+<head>
+<meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieGor - Premium Movies & Series</title>
@@ -28,8 +28,8 @@
     
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts for Ultra Premium Look -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Google Fonts for Ultra Premium Look & Bebas Neue for CineFreak Style Logo -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -75,38 +75,78 @@
             width: 100%;
         }
 
-        /* 1. Sticky Header with Logo perfectly centered */
+        /* 1. Sticky Header with locked height of 75px */
         .top-header {
             position: sticky;
             top: 0;
+            height: 75px; /* ওভারল্যাপ বাগ ফিক্স করার জন্য হেডার হাইট লক করা হয়েছে */
             display: flex;
-            justify-content: center; /* লোগোটিকে একদম মাঝখানে রাখতে সেন্টার করা হয়েছে */
+            justify-content: center; 
             align-items: center;
-            padding: 10px 15px;
+            padding: 0 15px;
             margin-bottom: 20px;
             z-index: 101;
-            background: rgba(7, 4, 13, 0.95);
+            background: rgba(7, 4, 13, 0.96);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-light);
         }
+        
+        /* Premium CineFreak Typography Logo Styling */
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            overflow: hidden;
         }
-        /* Custom Dynamic Logo Sizing and Margins for Crop Effect */
-        #app-logo {
-            height: 180px; /* লোগোটি অনেক বড় ও স্পষ্ট দেখানোর জন্য হাইট অনেক বাড়ানো হয়েছে */
-            width: auto;
-            max-width: 250px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.45));
-            margin: -55px 0; /* পিএনজি ফাইলের খালি ট্রান্সপারেন্ট অংশটুকু নিখুঁতভাবে কেটে ফেলার জন্য মার্জিন */
-            display: block;
+        .logo-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        /* CineFreak Bold condensed tall font rules */
+        .logo-main {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px; /* বড় এবং স্পস্ট টল ফন্ট */
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            line-height: 0.85;
             transition: all 0.3s ease;
+        }
+        .logo-sub {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Brand Colors (MovieGor Golden-yellow gradient) */
+        .logo-main.general {
+            background: linear-gradient(180deg, #fff2cc 0%, var(--primary-gold) 60%, var(--dark-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(229, 184, 66, 0.3));
+        }
+        .logo-sub.general {
+            color: var(--primary-gold);
+            opacity: 0.95;
+        }
+
+        /* Brand Colors (Porn Tube Hot-neon red/pink gradient) */
+        .logo-main.adult {
+            background: linear-gradient(180deg, #ffb3c6 0%, #ff3d71 60%, #b31c42 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 61, 113, 0.45));
+        }
+        .logo-sub.adult {
+            color: #ff3d71;
+            opacity: 0.95;
         }
 
         /* Search icon pinned absolutely to the right */
@@ -117,7 +157,7 @@
             padding: 8px;
             transition: color 0.3s;
             position: absolute;
-            right: 15px; /* লোগোর এলাইনমেন্ট নষ্ট না করে একদম ডান পাশে লক করা হয়েছে */
+            right: 15px;
         }
         .search-toggle-btn:hover {
             color: var(--primary-gold);
@@ -126,7 +166,7 @@
         /* Expanding Search Bar Style */
         .search-bar-container {
             position: sticky;
-            top: 73px;
+            top: 75px;
             width: 100%;
             max-height: 0;
             opacity: 0;
@@ -271,10 +311,10 @@
             background: var(--primary-gold);
         }
 
-        /* Action Control Panel sticky */
+        /* 3. Sticky Control Panel (Sticks exactly at 75px below header on scroll - NO OVERLAP) */
         .control-panel {
             position: sticky;
-            top: 73px; 
+            top: 75px; /* ওপরে হেডারের সাথে নিখুঁতভাবে টাইট হয়ে আটকে থাকবে */
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -289,6 +329,8 @@
             padding: 8px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
+        
+        /* 18+ Switch Container - prevents popunder script triggers on click */
         .control-btn {
             flex: 1;
             padding: 9px 0;
@@ -398,12 +440,12 @@
             border-radius: 2px;
         }
         
-        /* Smooth Inertia Momentum Scroll Container */
+        /* Smooth Inertia Momentum Scroll Container (Smooth scroll bug fixed) */
         .slider-wrapper {
             display: flex;
             overflow-x: auto;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; 
+            overflow-y: hidden; /* vertical wiggle completely blocked */
+            -webkit-overflow-scrolling: touch; /* Butter-smooth momentum swiping on iOS/WebViews */
             gap: 12px;
             padding: 5px 2px 15px 2px;
             scrollbar-width: none;
@@ -427,6 +469,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            will-change: transform, box-shadow; /* জিপিইউ হার্ডওয়্যার এক্সিলারেশন অন করার কোড */
+            transform: translate3d(0, 0, 0); 
         }
         .video-card:hover {
             transform: translateY(-5px);
@@ -624,8 +668,11 @@
         <!-- Header -->
         <header class="top-header">
             <div class="logo-container">
-                <!-- Custom Dynamic Image Logo (MovieGor & Porn Tube switcher) -->
-                <img id="app-logo" src="https://files.catbox.moe/0wm9wh.png" alt="MovieGor">
+                <!-- Custom CineFreak Style Dynamic Text Logo (MovieGor & Porn Tube switcher) -->
+                <div class="logo-text-wrapper">
+                    <span class="logo-main general" id="logo-main-text">MOVIEGOR</span>
+                    <span class="logo-sub general" id="logo-sub-text">PREMIUM MOVIES HUB</span>
+                </div>
             </div>
             <i class="fa-solid fa-magnifying-glass search-toggle-btn" onclick="toggleSearchBar()"></i>
         </header>
@@ -644,12 +691,18 @@
         <!-- Carousel Dots -->
         <div class="carousel-dots" id="carousel-dots"></div>
 
-        <!-- Control Panel -->
+        <!-- Control Panel (Sticks exactly at 75px below header on scroll - NO OVERLAP) -->
         <div class="control-panel">
-            <button class="control-btn ctrl-adult" id="adult-toggle-btn" onclick="toggleAdultMode(event)">
+            <!-- 18+ Adult Custom Container to block all ad event propagation -->
+            <div class="control-btn ctrl-adult" id="adult-toggle-btn" 
+                 onclick="toggleAdultMode(event)"
+                 onmousedown="event.stopPropagation();" 
+                 onmouseup="event.stopPropagation();" 
+                 ontouchstart="event.stopPropagation();" 
+                 ontouchend="event.stopPropagation();">
                 <span id="adult-label">18+ Adult</span>
                 <span class="adult-toggle"></span>
-            </button>
+            </div>
             <a href="https://t.me/Viral_Video_Box24" id="telegram-link" target="_blank" class="control-btn ctrl-tg" onclick="handleTelegramClick()">
                 <i class="fab fa-telegram-plane"></i> <span id="tg-label">Telegram</span>
             </a>
@@ -727,6 +780,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const directLink = "https://omg10.com/4/11115518";
+    const highCpmAdLink = "https://omg10.com/4/11115512";
     
     let subLink = "https://t.me/Viral_Video_Box24"; // default fallback
     let globalVideoData = {};
@@ -743,39 +797,34 @@
         return `${year}-${month}-${day}`;
     }
 
-    // ২. রিয়েল-টাইম আইপি লোকেশন চেক এবং ভাষা রূপান্তর
+    // ২. ব্রাউজার ল্যাঙ্গুয়েজ অনুযায়ী ইনস্ট্যান্ট লোকালাইজেশন (০ মিলি-সেকেন্ড ব্লক - ১00% ফাস্ট লোডিং)
     function detectLanguageAndLocalize() {
+        const navLang = navigator.language || navigator.userLanguage;
+        if (navLang && navLang.startsWith('bn')) {
+            activeLang = 'bn';
+        } else {
+            activeLang = 'en';
+        }
+        applyLocalization(); // পেজে আসার সাথে সাথে ইনস্ট্যান্ট রেন্ডার হবে!
+
+        // প্রথম ভিজিটে স্বাগতম ও প্রমোশনাল পপআপ মডাল প্রদর্শন (এক সেশনে মাত্র একবার)
+        if (!sessionStorage.getItem('welcomeShown')) {
+            setTimeout(() => {
+                const attModal = document.getElementById('attentionModal');
+                if (attModal) attModal.style.display = 'flex';
+            }, 1000); 
+        }
+
+        // ব্যাকগ্রাউন্ডে আইপি চেক (পেজ লোড ব্লক করবে না)
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
-                if (data && data.country_code === 'BD') {
+                if (data && data.country_code === 'BD' && activeLang !== 'bn') {
                     activeLang = 'bn';
-                }
-                applyLocalization();
-                
-                // প্রথম ভিজিটে স্বাগতম ও প্রমোশনাল পপআপ মডাল প্রদর্শন (এক সেশনে মাত্র একবার)
-                if (!sessionStorage.getItem('welcomeShown')) {
-                    setTimeout(() => {
-                        const attModal = document.getElementById('attentionModal');
-                        if (attModal) attModal.style.display = 'flex';
-                    }, 1500); 
+                    applyLocalization(); // শুধুমাত্র ভাষা পরিবর্তিত হলেই রি-রেন্ডার করবে
                 }
             })
-            .catch(() => {
-                // আইপি ফেইল করলে ব্রাউজার ল্যাঙ্গুয়েজ চেক
-                const navLang = navigator.language || navigator.userLanguage;
-                if (navLang && navLang.startsWith('bn')) {
-                    activeLang = 'bn';
-                }
-                applyLocalization();
-                
-                if (!sessionStorage.getItem('welcomeShown')) {
-                    setTimeout(() => {
-                        const attModal = document.getElementById('attentionModal');
-                        if (attModal) attModal.style.display = 'flex';
-                    }, 1500); 
-                }
-            });
+            .catch(() => {});
     }
 
     function applyLocalization() {
@@ -855,7 +904,6 @@
         }
     });
 
-    // ভিডিও ডেটা রিড করার প্রসেস ও ডিপ-লিংকিং হ্যান্ডলার
     onValue(ref(db, 'content/videos'), (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -870,7 +918,7 @@
                 const rawCategory = v.category || 'bangla';
                 const isAdult = v.isAdult === true || isAdultCategory(rawCategory);
 
-                // ভিডিও অ্যাডাল্ট হলে স্বয়ংক্রিয়ভাবে ১৮+ মোড চালু হবে
+                // video অ্যাডাল্ট হলে স্বয়ংক্রিয়ভাবে ১৮+ মোড চালু হবে
                 if (isAdult) {
                     isAdultMode = true;
                     localStorage.setItem('isAdultMode', 'true');
@@ -934,18 +982,21 @@
                normalized.includes('hot');
     }
 
-    // ১৮+ মোড অনুযায়ী লোগো ব্র্যান্ডিং ইমেজ পরিবর্তনের ডায়নামিক রুল (PORN TUBE)
+    // ১৮+ মোড অনুযায়ী লোগো ব্র্যান্ডিং টেক্সট পরিবর্তনের ডায়নামিক রুল (PORN TUBE)
     function updateLogoBranding() {
-        const logoImg = document.getElementById('app-logo');
+        const logoMain = document.getElementById('logo-main-text');
+        const logoSub = document.getElementById('logo-sub-text');
 
         if (isAdultMode) {
-            logoImg.src = "https://files.catbox.moe/dcphaj.png"; // Porn Tube Logo
-            logoImg.alt = "Porn Tube";
-            logoImg.style.filter = "drop-shadow(0 0 10px rgba(255, 61, 113, 0.5))"; // Saturated Pink Glow
+            logoMain.innerText = "PORN TUBE";
+            logoMain.className = "logo-main adult";
+            logoSub.innerText = "18+ ADULT ONLY";
+            logoSub.className = "logo-sub adult";
         } else {
-            logoImg.src = "https://files.catbox.moe/0wm9wh.png"; // MovieGor Logo
-            logoImg.alt = "MovieGor";
-            logoImg.style.filter = "drop-shadow(0 0 8px rgba(229, 184, 66, 0.3))"; // Gold Glow
+            logoMain.innerText = "MOVIEGOR";
+            logoMain.className = "logo-main general";
+            logoSub.innerText = "PREMIUM MOVIES HUB";
+            logoSub.className = "logo-sub general";
         }
     }
 
@@ -1226,17 +1277,17 @@
     window.handleTelegramClick = () => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`stats/telegramClicks/${today}`] = dbIncrement(1);
-        dbUpdate(dbRef(db), updates);
+        updates[`stats/telegramClicks/${today}`] = increment(1);
+        update(ref(db), updates);
     };
 
     // ৮. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
     window.trackView = (key) => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`content/videos/${key}/views`] = dbIncrement(1);
-        updates[`stats/dailyViews/${today}`] = dbIncrement(1);
-        dbUpdate(dbRef(db), updates);
+        updates[`content/videos/${key}/views`] = increment(1);
+        updates[`stats/dailyViews/${today}`] = increment(1);
+        update(ref(db), updates);
     };
 
     // ৯. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
@@ -1277,6 +1328,7 @@
     window.toggleAdultMode = (e) => {
         if (e) {
             e.stopPropagation(); // Onclick (Popunder) বিজ্ঞাপনের ফায়ারিং বন্ধ করার জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে
+            e.stopImmediatePropagation();
         }
         isAdultMode = !isAdultMode;
         localStorage.setItem('isAdultMode', isAdultMode ? 'true' : 'false');
