@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
+<meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieGor - Premium Movies & Series</title>
@@ -1296,7 +1296,7 @@
             startBannerAutoCycle();
         }
 
-        // ৬. সিলেক্ট করা একটিভ ভিউ লোড করা
+        //6. সিলেক্ট করা একটিভ ভিউ লোড করা
         renderActiveView(categoriesMap);
     }
 
@@ -1344,7 +1344,7 @@
                                     <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${v.key}', '${v.title}')"></i>
                                 </p>
                                 <button class="action-btn unlock-btn" id="btn-${v.key}" onclick="startAdProcess('${v.key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
-                                <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
+                                <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}', '${v.key}', ${v.ads || 5})">WATCH NOW</a>
                             </div>
                         </div>
                     `;
@@ -1426,7 +1426,7 @@
                             <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${v.key}', '${v.title}')"></i>
                         </p>
                         <button class="action-btn unlock-btn" id="btn-${v.key}" onclick="startAdProcess('${v.key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
-                        <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
+                        <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}', '${v.key}', ${v.ads || 5})">WATCH NOW</a>
                     </div>
                 </div>
             `;
@@ -1594,7 +1594,7 @@
                             <h4>${v.title}</h4>
                             <p class="card-subtitle"><i class="fa-regular fa-eye"></i> ${formattedViews} <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${key}', '${v.title}')"></i></p>
                             <button class="action-btn unlock-btn" id="btn-${key}" onclick="startAdProcess('${key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
-                            <a href="javascript:void(0)" id="open-${key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
+                            <a href="javascript:void(0)" id="open-${key}" class="action-btn open-btn" onclick="finalOpen('${v.url}', '${key}', ${v.ads || 5})">WATCH NOW</a>
                         </div>
                     </div>
                 `;
@@ -1633,17 +1633,17 @@
     window.handleTelegramClick = () => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`stats/telegramClicks/${today}`] = dbIncrement(1);
-        dbUpdate(dbRef(db), updates);
+        updates[`stats/telegramClicks/${today}`] = increment(1);
+        update(ref(db), updates);
     };
 
     // ১৫. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
     window.trackView = (key) => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`content/videos/${key}/views`] = dbIncrement(1);
-        updates[`stats/dailyViews/${today}`] = dbIncrement(1);
-        dbUpdate(dbRef(db), updates);
+        updates[`content/videos/${key}/views`] = increment(1);
+        updates[`stats/dailyViews/${today}`] = increment(1);
+        update(ref(db), updates);
     };
 
     // ১৬. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
@@ -1672,12 +1672,24 @@
 
     window.openDirectLink = () => { window.open(directLink, '_blank'); };
 
-    // ডাইনামিক কম্বাইন্ড ডিরেক্ট লিংক + মুভি লিংক ওপেনার
-    window.finalOpen = (videoUrl) => {
+    // ডাইনামিক কম্বাইন্ড ডিরেক্ট লিংক + মুভি লিংক ওপেনার এবং কার্ড রিসেটার
+    window.finalOpen = (videoUrl, key, originalAds) => {
         // ১. প্রথমে ডিরেক্ট লিংক নতুন ট্যাবে ওপেন হবে
         window.open(directLink, '_blank');
         // ২. মূল উইন্ডোতে মুভি ফাইলে রিডাইরেক্ট হবে
         setTimeout(() => { window.location.href = videoUrl; }, 800);
+
+        // ৩. ব্যবহারকারী যদি পরবর্তীতে আবারো দেখতে চায়, তার জন্য কার্ডটিকে আগের আনলক অবস্থায় রিসেট করা
+        if (key) {
+            countedViews[key] = false; // ভিউ ট্র্যাকিং পুনরায় সক্রিয় করার জন্য রিসেট
+            const btn = document.getElementById('btn-' + key);
+            const openBtn = document.getElementById('open-' + key);
+            if (btn && openBtn) {
+                btn.innerText = `Unlock ${originalAds} Ads`;
+                btn.style.display = 'block'; // আনলক বাটন পুনরায় ফিরিয়ে আনা
+                openBtn.style.display = 'none'; // ওয়াচ নাও বাটন হাইড করা
+            }
+        }
     };
 
     // ১৭. 18+ মোড টগল (বিজ্ঞাপন ফায়ারিং বন্ধের জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে)
