@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
+    <meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieGor - Premium Movies & Series</title>
@@ -75,11 +75,11 @@
             width: 100%;
         }
 
-        /* 1. Sticky Header with locked height of 75px */
+        /* Top Header & Custom Logo sticky */
         .top-header {
             position: sticky;
             top: 0;
-            height: 75px; /* ওভারল্যাপ বাগ ফিক্স করার জন্য হেডার হাইট লক করা হয়েছে */
+            height: 75px; 
             display: flex;
             justify-content: center; 
             align-items: center;
@@ -92,12 +92,26 @@
             border-bottom: 1px solid var(--border-light);
         }
         
-        /* Premium CineFreak Typography Logo Styling */
+        /* Left Menu Trigger Button (☰) */
+        .menu-toggle-btn {
+            color: var(--text-light);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+            position: absolute;
+            left: 15px;
+            transition: color 0.3s;
+        }
+        .menu-toggle-btn:hover {
+            color: var(--primary-gold);
+        }
+
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            overflow: hidden;
         }
         .logo-text-wrapper {
             display: flex;
@@ -106,10 +120,9 @@
             justify-content: center;
             line-height: 1;
         }
-        /* CineFreak Bold condensed tall font rules */
         .logo-main {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 42px; /* বড় এবং স্পস্ট টল ফন্ট */
+            font-size: 42px; 
             font-weight: 700;
             letter-spacing: 1.5px;
             line-height: 0.85;
@@ -314,7 +327,7 @@
         /* 3. Sticky Control Panel (Sticks exactly at 75px below header on scroll - NO OVERLAP) */
         .control-panel {
             position: sticky;
-            top: 75px; /* ওপরে হেডারের সাথে নিখুঁতভাবে টাইট হয়ে আটকে থাকবে */
+            top: 75px; 
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -421,12 +434,12 @@
             display: block;
         }
         .category-title {
-            font-size: 13px;
+            font-family: 'Bebas Neue', sans-serif; /* ক্যাটাগরি রো টাইটেলে বোল্ড ফন্ট */
+            font-size: 24px;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--primary-gold);
+            letter-spacing: 1.2px;
             margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -435,7 +448,7 @@
             content: '';
             display: inline-block;
             width: 4px;
-            height: 14px;
+            height: 16px;
             background: var(--primary-gold);
             border-radius: 2px;
         }
@@ -508,16 +521,18 @@
             flex-grow: 1;
         }
         .card-body h4 {
-            font-size: 11px;
+            font-family: 'Montserrat', sans-serif; /* মুভি টাইটেলের ফন্ট 'Montserrat'-এ ফিরিয়ে নেওয়া হয়েছে */
+            font-size: 11px; /* সুন্দর স্পষ্ট মাঝারি সাইজ */
             font-weight: 700;
             color: var(--text-light);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             line-height: 1.4;
-            height: 32px;
+            height: 32px; /* ২ লাইনের লেআউট ঠিক রাখার জন্য ফিক্সড হাইট */
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            letter-spacing: 0.2px;
         }
         .card-subtitle {
             font-size: 9px;
@@ -647,10 +662,158 @@
             margin-bottom: 8px;
         }
 
-        /* Attention/Welcome Modal Popup */
-        #attentionModal .modal-content {
-            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5), 0 0 20px rgba(229, 184, 66, 0.3);
-            border: 1px solid var(--primary-gold);
+        /* Premium Sidebar Navigation Drawer (Slide-out menu) */
+        .sidebar-drawer {
+            position: fixed;
+            top: 0;
+            left: -280px; /* Hidden by default */
+            width: 280px;
+            height: 100vh;
+            background: rgba(18, 11, 34, 0.98);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-right: 1px solid var(--border-light);
+            z-index: 1000;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+        .sidebar-drawer.active {
+            left: 0;
+        }
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+            display: none;
+        }
+        .drawer-overlay.active {
+            display: block;
+        }
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .drawer-title {
+            font-family: 'Bebas Neue', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 1px;
+        }
+        .close-drawer {
+            font-size: 28px;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .drawer-item {
+            padding: 12px 15px;
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid transparent;
+        }
+        .drawer-item:hover, .drawer-item.active {
+            background: rgba(138, 43, 226, 0.15);
+            border-color: var(--border-light);
+            color: var(--primary-gold);
+        }
+
+        /* Dynamic Category Page Layout Grid */
+        .category-page-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        #category-page-title {
+            font-family: 'Bebas Neue', sans-serif; /* ক্যাটাগরি পেজ হেডারে বোল্ড ফন্ট */
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+        .category-header-line {
+            width: 60px;
+            height: 3px;
+            background: var(--primary-gold);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        .category-video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .category-video-grid .video-card {
+            width: 100%; /* Fill the grid slot perfectly */
+            flex: unset; /* Remove horizontal flex rules */
+        }
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0 40px 0;
+        }
+        .page-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            color: var(--text-light);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .page-btn:hover, .page-btn.active {
+            background: var(--primary-gold);
+            color: #07040d;
+            border-color: var(--primary-gold);
+            box-shadow: 0 4px 12px rgba(229, 184, 66, 0.3);
+        }
+        .page-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Search Results Panel - display: none by default */
+        .search-results-section {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .search-results-section.active {
+            display: block; /* Shown only when search query is active */
+        }
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
 
         @media (max-width: 768px) {
@@ -663,15 +826,31 @@
 </head>
 <body>
 
+    <!-- Left Slide-out Sidebar Drawer -->
+    <div id="sidebar-drawer" class="sidebar-drawer">
+        <div class="drawer-header">
+            <span class="drawer-title" id="drawer-title-text">MENU</span>
+            <button class="drawer-item close-drawer" onclick="closeSidebarMenu()">&times;</button>
+        </div>
+        <div class="drawer-body" id="drawer-menu-list">
+            <!-- Will be populated dynamically -->
+        </div>
+    </div>
+    <!-- Drawer Overlay background -->
+    <div id="drawer-overlay" class="drawer-overlay" onclick="closeSidebarMenu()"></div>
+
     <div class="main-content">
         
-        <!-- Header -->
+        <!-- Header (Menu Trigger included) -->
         <header class="top-header">
+            <!-- ☰ Left Menu Button -->
+            <i class="fa-solid fa-bars menu-toggle-btn" onclick="toggleSidebarMenu()"></i>
+            
             <div class="logo-container">
                 <!-- Custom CineFreak Style Dynamic Text Logo (MovieGor & Porn Tube switcher) -->
                 <div class="logo-text-wrapper">
                     <span class="logo-main general" id="logo-main-text">MOVIEGOR</span>
-                    <span class="logo-sub general" id="logo-sub-text">PREMIUM MOVIES HUB</span>
+                    <span class="logo-sub" id="logo-sub-text">PREMIUM MOVIES HUB</span>
                 </div>
             </div>
             <i class="fa-solid fa-magnifying-glass search-toggle-btn" onclick="toggleSearchBar()"></i>
@@ -724,7 +903,17 @@
                 <!-- Will be populated dynamically by language detection -->
             </div>
 
-            <!-- Dynamic Categories Row Container -->
+            <!-- Category Page View (Hidden by default, used for dedicated pagination pages) -->
+            <div id="category-page-view" style="display: none;">
+                <div class="category-page-header">
+                    <h2 id="category-page-title">CATEGORY NAME</h2>
+                    <div class="category-header-line"></div>
+                </div>
+                <div class="category-video-grid" id="category-video-grid"></div>
+                <div class="pagination-container" id="pagination-container"></div>
+            </div>
+
+            <!-- Dynamic Categories Row Container (Used for Classic Home Feed layout) -->
             <div id="dynamic-categories-container"></div>
         </div>
 
@@ -788,6 +977,11 @@
     let countedViews = {}; // এক পেজ সেশনে বারবার কাউন্ট হওয়া বন্ধ করার ইন-মেমোরি অবজেক্ট
     let activeLang = 'en'; // ডিফল্ট ইংরেজি
 
+    // ডাইনামিক ক্যাটাগরি ও পেজিনেশন ভেরিয়েবলসমূহ
+    let selectedCategory = 'Home'; 
+    let currentPage = 1;
+    const itemsPerPage = 10; // প্রতি পেজে ১০টি মুভি দেখাবে
+
     // ১. গ্লোবাল টাইমজোন নিরপেক্ষ লোকাল ডেট জেনারেটর
     function getLocalDateString() {
         const tempDate = new Date();
@@ -838,58 +1032,32 @@
         const popupTgBtn = document.getElementById('popup-telegram-btn');
         if (popupTgBtn) popupTgBtn.href = subLink;
 
-        if (activeLang === 'bn') {
-            promoBox.innerHTML = `<p><i class="fa-solid fa-share-nodes" style="color: var(--primary-gold); margin-right: 4px;"></i> আমাদের ওয়েবসাইটটি আপনার বন্ধুদের সাথে শেয়ার করুন, যাতে তারাও সব প্রিমিয়াম মুভি ও ভিডিও সম্পূর্ণ ফ্রিতে উপভোগ করতে পারে!</p>`;
-            modalTitle.innerHTML = `<i class="fa-solid fa-download"></i> ডাউনলোডের নিয়মাবলী`;
-            modalBody.innerHTML = `
-                <p>MovieGor থেকে যেকোনো ভিডিও দেখা অথবা ডাউনলোড করার সহজ পদ্ধতি:</p>
-                <ol>
-                    <li>প্রথমে আপনি যে ভিডিওটি দেখতে চান সেটির কার্ডে যান।</li>
-                    <li>কার্ডের নিচে থাকা <b>Unlock Ads</b> বাটনে ক্লিক করুন।</li>
-                    <li>প্রতি ক্লিকে একটি করে বিজ্ঞাপন আনলক হবে। সম্পূর্ণ বিজ্ঞাপন আনলক শেষ করুন।</li>
-                    <li>আনলক সম্পন্ন হলে সেখানে গোল্ডেন রঙের <b>WATCH NOW</b> বাটনটি আসবে।</li>
-                    <li>বাটনটিতে ক্লিক করলেই আপনি কাঙ্ক্ষিত ভিডিও প্লে বা ডাউনলোড করতে পারবেন!</li>
+        // গাইড এবং শেয়ার টেক্সট সম্পূর্ণ বাংলায় অপ্টিমাইজ করা হয়েছে
+        promoBox.innerHTML = `<p style="font-size:12px; font-weight:600; color:#fff; line-height:1.6;"><i class="fa-solid fa-share-nodes" style="color: var(--primary-gold); margin-right: 4px;"></i> আমাদের ওয়েবসাইটটি আপনার বন্ধুদের সাথে শেয়ার করুন, যাতে তারাও সব প্রিমিয়াম মুভি ও ওয়েব সিরিজ সম্পূর্ণ ফ্রিতে উপভোগ করতে পারে! ধন্যবাদ।</p>`;
+        modalTitle.innerHTML = `<i class="fa-solid fa-download"></i> ডাউনলোডের নিয়মাবলী`;
+        modalBody.innerHTML = `
+            <div style="font-size: 13px; color: #fff; line-height: 1.8; font-weight:500;">
+                <p style="margin-bottom: 15px; color: var(--primary-gold); font-weight: 700;">MovieGor থেকে যেকোনো ভিডিও দেখার সহজ পদ্ধতি:</p>
+                <ol style="padding-left: 20px;">
+                    <li style="margin-bottom: 10px;">প্রথমে আপনি যে ভিডিওটি দেখতে চান সেটির কার্ডের কাছে যান।</li>
+                    <li style="margin-bottom: 10px;">কার্ডের নিচে থাকা বেগুনি রঙের <b style="color: var(--primary-gold);">Unlock Ads</b> বাটনে ক্লিক করুন।</li>
+                    <li style="margin-bottom: 10px;">প্রতি ক্লিকে একটি করে বিজ্ঞাপন নতুন ট্যাবে ওপেন হবে। প্রয়োজনীয় সংখ্যক বিজ্ঞাপন আনলক শেষ করুন।</li>
+                    <li style="margin-bottom: 10px;">আনলক সম্পন্ন হলে সেখানে গোল্ডেন রঙের <b style="color: var(--primary-gold);">WATCH NOW</b> বাটনটি আসবে।</li>
+                    <li style="margin-bottom: 10px;">বাটনটিতে ক্লিক করলেই আপনি কাঙ্ক্ষিত ভিডিও প্লে বা ডাউনলোড করার মূল লিংকটি পেয়ে যাবেন!</li>
                 </ol>
-            `;
-            searchPlaceholder.placeholder = "সার্চ করুন...";
-            searchTitleLabel.innerText = "অনুসন্ধানের ফলাফল";
-            
-            attModalBody.innerHTML = `
-                <div style="background: rgba(138, 43, 226, 0.05); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-gold); margin-bottom: 15px;">
-                    <p style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.6;">
-                        📢 সকল ধরনের নতুন মুভি বা ওয়েব সিরিজ সবার আগে পেতে আমাদের ওয়েবসাইটের সাথেই থাকুন! এবং আমাদের টেলিগ্রাম চ্যানেলে যুক্ত হয়ে সাথেই থাকুন। ধন্যবাদ!
-                    </p>
-                </div>
-                <div style="padding: 10px; border-left: 4px solid #ff3d71; font-size: 11px; color: var(--text-muted); line-height: 1.6;">
-                    <p>To get all the latest movies & web series first, stay tuned to our website! Also, join our Telegram channel to stay updated. Thank you!</p>
-                </div>
-            `;
-            if (popupTgBtn) popupTgBtn.innerHTML = `<i class="fab fa-telegram-plane"></i> টেলিগ্রাম চ্যানেলে জয়েন করুন`;
-        } else {
-            promoBox.innerHTML = `<p><i class="fa-solid fa-share-nodes" style="color: var(--primary-gold); margin-right: 4px;"></i> Share our website with your friends so they can also enjoy premium movies & videos completely for free!</p>`;
-            modalTitle.innerHTML = `<i class="fa-solid fa-download"></i> Instructions Guide`;
-            modalBody.innerHTML = `
-                <p>Easy way to watch or download any video from MovieGor:</p>
-                <ol>
-                    <li>First, go to the card of the video you want to watch.</li>
-                    <li>Click on the <b>Unlock Ads</b> button at the bottom of the card.</li>
-                    <li>One ad will be unlocked per click. Complete all ad unlocks.</li>
-                    <li>Once unlocked, a golden <b>WATCH NOW</b> button will appear there.</li>
-                    <li>Clicking the button will let you play or download your desired video!</li>
-                </ol>
-            `;
-            searchPlaceholder.placeholder = "Search movies...";
-            searchTitleLabel.innerText = "Search Results";
-            
-            attModalBody.innerHTML = `
-                <div style="background: rgba(138, 43, 226, 0.05); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-gold); margin-bottom: 15px;">
-                    <p style="font-size: 13px; font-weight: 700; color: #fff; line-height: 1.6;">
-                        📢 Stay tuned to our website to get all the latest movies and web series first! Also, join our Telegram channel to stay updated. Thank you!
-                    </p>
-                </div>
-            `;
-            if (popupTgBtn) popupTgBtn.innerHTML = `<i class="fab fa-telegram-plane"></i> Join Telegram Now`;
-        }
+            </div>
+        `;
+        searchPlaceholder.placeholder = "মুভি খুঁজুন...";
+        searchTitleLabel.innerText = "অনুসন্ধানের ফলাফল";
+        
+        attModalBody.innerHTML = `
+            <div style="background: rgba(138, 43, 226, 0.05); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary-gold); margin-bottom: 15px;">
+                <p style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.6;">
+                    📢 সকল ধরনের নতুন মুভি বা ওয়েব সিরিজ সবার আগে পেতে আমাদের ওয়েবসাইটের সাথেই থাকুন! এবং আমাদের টেলিগ্রাম চ্যানেলে যুক্ত হয়ে সাথেই থাকুন। ধন্যবাদ!
+                </p>
+            </div>
+        `;
+        if (popupTgBtn) popupTgBtn.innerHTML = `<i class="fab fa-telegram-plane"></i> টেলিগ্রাম চ্যানেলে জয়েন করুন`;
     }
 
     // ৩. ডাটাবেজ থেকে রিয়েল-টাইম কনফিগারেশন রিড
@@ -948,12 +1116,7 @@
     window.shareVideo = (key, title) => {
         const shareUrl = `${window.location.origin}${window.location.pathname}?vid=${key}`;
         
-        let shareText = "";
-        if (activeLang === 'bn') {
-            shareText = `🎥 MovieGor - "${title}" সম্পূর্ণ ফ্রিতে এখনই দেখুন!\nএখানে চাপুন: ${shareUrl}`;
-        } else {
-            shareText = `🎥 MovieGor - Watch "${title}" Completely Free!\nClick here: ${shareUrl}`;
-        }
+        let shareText = `🎥 MovieGor - "${title}" সম্পূর্ণ ফ্রিতে এখনই দেখুন!\nএখানে চাপুন: ${shareUrl}`;
 
         if (navigator.share) {
             navigator.share({
@@ -964,7 +1127,7 @@
         } else {
             // ব্রাউজারে শেয়ার এপিআই সাপোর্ট না করলে ক্লিপবোর্ডে কপি হবে
             navigator.clipboard.writeText(shareText).then(() => {
-                alert(activeLang === 'bn' ? `শেয়ার লিংকটি কপি করা হয়েছে!\n\n${shareText}` : `Share link copied to clipboard!\n\n${shareText}`);
+                alert(`শেয়ার লিংকটি কপি করা হয়েছে!\n\n${shareText}`);
             }).catch(() => {
                 alert("Failed to copy link. Link: " + shareUrl);
             });
@@ -982,7 +1145,7 @@
                normalized.includes('hot');
     }
 
-    // ১৮+ মোড অনুযায়ী লোগো ব্র্যান্ডিং টেক্সট পরিবর্তনের ডায়নামিক রুল (PORN TUBE)
+    // ১৮+ মোড অনুযায়ী লোগো ব্র্যান্ডিং টেক্সট পরিবর্তনের ডায়নামিক রুল (PORN TUBE - CineFreak Style)
     function updateLogoBranding() {
         const logoMain = document.getElementById('logo-main-text');
         const logoSub = document.getElementById('logo-sub-text');
@@ -1085,46 +1248,28 @@
             carouselDots.style.display = "flex";
         }
 
-        // ডায়নামিক রো এবং স্লাইডার জেনারেশন (অটোমেটিক জেনারেট হবে)
-        Object.keys(categoriesMap).forEach(catName => {
-            const videos = categoriesMap[catName];
-            if (videos.length === 0) return;
+        // ৫. স্লাইড-আউট ক্যাটাগরি মেনু (☰) আইটেম জেনারেট করা
+        const drawerMenuList = document.getElementById('drawer-menu-list');
+        const drawerTitle = document.getElementById('drawer-title-text');
+        
+        drawerTitle.innerText = isAdultMode ? "PORN TUBE MENU" : "MOVIEGOR MENU";
 
-            let rowHTML = `
-                <div class="category-row has-content">
-                    <div class="category-title">${catName}</div>
-                    <div class="slider-wrapper">
-            `;
+        // Home অপশনটি সবসময় ওপরে থাকবে
+        let menuHTML = `
+            <div class="drawer-item ${selectedCategory === 'Home' ? 'active' : ''}" onclick="selectCategoryView('Home')">
+                <i class="fa-solid fa-house"></i> Home
+            </div>
+        `;
 
-            videos.forEach(v => {
-                const formattedViews = formatViews(v.views);
-                rowHTML += `
-                    <div class="video-card" id="card-${v.key}">
-                        <!-- ছবিতে চাপ দিলে শুধুমাত্র ডিরেক্ট লিংক ওপেন হবে, ভিউ কাউন্ট হবে না -->
-                        <div class="poster-container" onclick="openDirectLink()">
-                            <img src="${v.thumb}" alt="${v.title}">
-                        </div>
-                        <div class="card-body">
-                            <h4>${v.title}</h4>
-                            <p class="card-subtitle">
-                                <i class="fa-regular fa-eye"></i> ${formattedViews}
-                                <!-- ইউনিক শেয়ার বাটন -->
-                                <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${v.key}', '${v.title}')"></i>
-                            </p>
-                            <button class="action-btn unlock-btn" id="btn-${v.key}" onclick="startAdProcess('${v.key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
-                            <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
-                        </div>
-                    </div>
-                `;
-            });
-
-            rowHTML += `
-                    </div>
+        // ডায়নামিক ক্যাটাগরিগুলো তালিকায় যুক্ত করা
+        Object.keys(categoriesMap).sort().forEach(catName => {
+            menuHTML += `
+                <div class="drawer-item ${selectedCategory === catName ? 'active' : ''}" onclick="selectCategoryView('${catName}')">
+                    <i class="fa-solid fa-clapperboard"></i> ${catName}
                 </div>
             `;
-            
-            dynamicContainer.innerHTML += rowHTML;
         });
+        drawerMenuList.innerHTML = menuHTML;
 
         // স্লাইডার ব্যানার ফিল আপ
         if (bannerVideos.length > 0) {
@@ -1150,9 +1295,220 @@
             });
             startBannerAutoCycle();
         }
+
+        // ৬. সিলেক্ট করা একটিভ ভিউ লোড করা
+        renderActiveView(categoriesMap);
     }
 
-    // ৫. ব্যানার অটোমেটিক স্লাইড সাইকেল
+    // ৭. একটিভ ক্যাটাগরি ভিউ রেন্ডারার (Home বনাম ক্যাটাগরি পেজ)
+    function renderActiveView(categoriesMap) {
+        const dynamicContainer = document.getElementById('dynamic-categories-container');
+        const categoryPageView = document.getElementById('category-page-view');
+        const bannerSlider = document.getElementById('banner-slider');
+        const carouselDots = document.getElementById('carousel-dots');
+        const sharePromoBox = document.getElementById('share-promo-container');
+
+        if (selectedCategory === 'Home') {
+            // হোম পেজ লেআউট রেন্ডার
+            categoryPageView.style.display = "none";
+            dynamicContainer.style.display = "block";
+            sharePromoBox.style.display = "flex";
+
+            if (bannerSlider.querySelectorAll('.banner-slide').length > 0) {
+                bannerSlider.style.display = "block";
+                carouselDots.style.display = "flex";
+            }
+
+            // ডায়নামিক রো হোম পেজে তৈরি করা
+            Object.keys(categoriesMap).forEach(catName => {
+                const videos = categoriesMap[catName];
+                if (videos.length === 0) return;
+
+                let rowHTML = `
+                    <div class="category-row has-content">
+                        <div class="category-title">${catName}</div>
+                        <div class="slider-wrapper">
+                `;
+
+                videos.forEach(v => {
+                    const formattedViews = formatViews(v.views);
+                    rowHTML += `
+                        <div class="video-card" id="card-${v.key}">
+                            <div class="poster-container" onclick="openDirectLink()">
+                                <img src="${v.thumb}" alt="${v.title}">
+                            </div>
+                            <div class="card-body">
+                                <h4>${v.title}</h4>
+                                <p class="card-subtitle">
+                                    <i class="fa-regular fa-eye"></i> ${formattedViews}
+                                    <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${v.key}', '${v.title}')"></i>
+                                </p>
+                                <button class="action-btn unlock-btn" id="btn-${v.key}" onclick="startAdProcess('${v.key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
+                                <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                rowHTML += `
+                        </div>
+                    </div>
+                `;
+                
+                dynamicContainer.innerHTML += rowHTML;
+            });
+
+        } else {
+            // ক্যাটাগরি পেজ লেআউট রেন্ডার
+            dynamicContainer.style.display = "none";
+            sharePromoBox.style.display = "flex"; // নির্দিষ্ট ক্যাটাগরি সিলেক্ট করলেও প্রমো বক্স দৃশ্যমান থাকবে
+            categoryPageView.style.display = "block";
+            
+            // ক্যাটাগরি পেজে ব্যানার স্লাইডার সম্পূর্ণ হাইড থাকবে
+            bannerSlider.style.display = "none";
+            carouselDots.style.display = "none";
+
+            renderCategoryPage(selectedCategory);
+        }
+    }
+
+    // ৮. ১০টি করে মুভি সহ পেজিনেশন পেজ রেন্ডারার
+    function renderCategoryPage(catName) {
+        const keys = Object.keys(globalVideoData).reverse();
+        let catVideos = [];
+
+        keys.forEach(key => {
+            const v = globalVideoData[key];
+            const rawCategory = v.category || 'bangla';
+            const formattedCategoryName = formatCategoryName(rawCategory);
+            const isAdult = v.isAdult === true || isAdultCategory(rawCategory);
+
+            if (isAdultMode && !isAdult) return;
+            if (!isAdultMode && isAdult) return;
+
+            if (formattedCategoryName === catName) {
+                catVideos.push({ key, ...v });
+            }
+        });
+
+        document.getElementById('category-page-title').innerText = catName;
+
+        const totalItems = catVideos.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedVideos = catVideos.slice(startIndex, endIndex);
+
+        const grid = document.getElementById('category-video-grid');
+        grid.innerHTML = "";
+
+        if (paginatedVideos.length === 0) {
+            grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0;">এই ক্যাটাগরিতে কোনো ভিডিও নেই।</p>`;
+            document.getElementById('pagination-container').innerHTML = "";
+            return;
+        }
+
+        paginatedVideos.forEach(v => {
+            const formattedViews = formatViews(v.views);
+            grid.innerHTML += `
+                <div class="video-card" id="card-${v.key}">
+                    <div class="poster-container" onclick="openDirectLink()">
+                        <img src="${v.thumb}" alt="${v.title}">
+                    </div>
+                    <div class="card-body">
+                        <h4>${v.title}</h4>
+                        <p class="card-subtitle">
+                            <i class="fa-regular fa-eye"></i> ${formattedViews}
+                            <i class="fa-solid fa-share-nodes share-card-btn" onclick="shareVideo('${v.key}', '${v.title}')"></i>
+                        </p>
+                        <button class="action-btn unlock-btn" id="btn-${v.key}" onclick="startAdProcess('${v.key}', '${v.url}')">Unlock ${v.ads || 5} Ads</button>
+                        <a href="javascript:void(0)" id="open-${v.key}" class="action-btn open-btn" onclick="finalOpen('${v.url}')">WATCH NOW</a>
+                    </div>
+                </div>
+            `;
+        });
+
+        renderPaginationControls(totalPages);
+    }
+
+    function renderPaginationControls(totalPages) {
+        const pagContainer = document.getElementById('pagination-container');
+        pagContainer.innerHTML = "";
+
+        if (totalPages <= 1) return;
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = `page-btn ${currentPage === 1 ? 'disabled' : ''}`;
+        prevBtn.innerHTML = `<i class="fa-solid fa-chevron-left"></i>`;
+        prevBtn.onclick = () => { 
+            if (currentPage > 1) { 
+                currentPage--; 
+                renderCategoryPage(selectedCategory); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } 
+        };
+        pagContainer.appendChild(prevBtn);
+
+        // Page Number Buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+            pageBtn.innerText = i;
+            pageBtn.onclick = () => { 
+                currentPage = i; 
+                renderCategoryPage(selectedCategory); 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            };
+            pagContainer.appendChild(pageBtn);
+        }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = `page-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextBtn.innerHTML = `<i class="fa-solid fa-chevron-right"></i>`;
+        nextBtn.onclick = () => { 
+            if (currentPage < totalPages) { 
+                currentPage++; 
+                renderCategoryPage(selectedCategory); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } 
+        };
+        pagContainer.appendChild(nextBtn);
+    }
+
+    // ৯. মেনু কন্ট্রোলার সিলেকশন ট্র্যাকার
+    window.selectCategoryView = (categoryName) => {
+        selectedCategory = categoryName;
+        currentPage = 1; // পেজ রিসেট
+        closeSidebarMenu();
+        
+        renderAllContent();
+    };
+
+    window.toggleSidebarMenu = () => {
+        const drawer = document.getElementById('sidebar-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (drawer && overlay) {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+        }
+    };
+
+    window.closeSidebarMenu = () => {
+        const drawer = document.getElementById('sidebar-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (drawer && overlay) {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    };
+
+    // ১০. ব্যানার অটোমেটিক স্লাইড সাইকেল
     let autoSlideInterval;
     function startBannerAutoCycle() {
         if (autoSlideInterval) clearInterval(autoSlideInterval);
@@ -1173,7 +1529,7 @@
         }, 4000);
     }
 
-    // ৪. ব্যানার Watch Now ক্লিক স্ক্রোল ও হাইলাইট
+    // ১১. ব্যানার Watch Now ক্লিক স্ক্রোল ও হাইলাইট
     window.scrollToCard = (key) => {
         const targetCard = document.getElementById('card-' + key);
         if (targetCard) {
@@ -1186,7 +1542,7 @@
         }
     };
 
-    // ৫. রিয়েল-টাইম সার্চ লজিক
+    // ১২. রিয়েল-টাইম সার্চ লজিক
     window.handleSearch = (query) => {
         const searchResultsSection = document.getElementById('search-results-section');
         const searchResultsGrid = document.getElementById('search-results-grid');
@@ -1251,7 +1607,7 @@
         }
     };
 
-    // ৬. সার্চ বার টগল করা
+    // ১৩. সার্চ বার টগল করা
     window.toggleSearchBar = () => {
         const searchBar = document.getElementById('search-bar-container');
         searchBar.classList.toggle('active');
@@ -1273,24 +1629,24 @@
         }
     };
 
-    // ७. টেলিগ্রাম ট্র্যাকিং
+    // ১৪. টেলিগ্রাম ট্র্যাকিং
     window.handleTelegramClick = () => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`stats/telegramClicks/${today}`] = increment(1);
-        update(ref(db), updates);
+        updates[`stats/telegramClicks/${today}`] = dbIncrement(1);
+        dbUpdate(dbRef(db), updates);
     };
 
-    // ৮. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
+    // ১৫. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
     window.trackView = (key) => {
         const today = getLocalDateString();
         const updates = {};
-        updates[`content/videos/${key}/views`] = increment(1);
-        updates[`stats/dailyViews/${today}`] = increment(1);
-        update(ref(db), updates);
+        updates[`content/videos/${key}/views`] = dbIncrement(1);
+        updates[`stats/dailyViews/${today}`] = dbIncrement(1);
+        dbUpdate(dbRef(db), updates);
     };
 
-    // ৯. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
+    // ১৬. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
     window.startAdProcess = (key, videoUrl) => {
         const btn = document.getElementById('btn-' + key);
         const openBtn = document.getElementById('open-' + key);
@@ -1324,7 +1680,7 @@
         setTimeout(() => { window.location.href = videoUrl; }, 800);
     };
 
-    // ১০. 18+ মোড টগল (বিজ্ঞাপন ফায়ারিং বন্ধের জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে)
+    // ১৭. 18+ মোড টগল (বিজ্ঞাপন ফায়ারিং বন্ধের জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে)
     window.toggleAdultMode = (e) => {
         if (e) {
             e.stopPropagation(); // Onclick (Popunder) বিজ্ঞাপনের ফায়ারিং বন্ধ করার জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে
@@ -1333,6 +1689,9 @@
         isAdultMode = !isAdultMode;
         localStorage.setItem('isAdultMode', isAdultMode ? 'true' : 'false');
         
+        selectedCategory = 'Home'; // মোড পরিবর্তন করলে ক্যাটাগরি পেজ থেকে সরাসরি হোমপেজে রি-ডাইরেক্ট হবে
+        currentPage = 1;
+
         const adultBtn = document.getElementById('adult-toggle-btn');
         if (isAdultMode) {
             adultBtn.classList.add('active');
@@ -1344,7 +1703,7 @@
         renderAllContent();
     };
 
-    // ১১. গাইড মডাল কন্ট্রোল
+    // ১৮. গাইড মডাল কন্ট্রোল
     window.openDownloadModal = () => {
         document.getElementById('helpModal').style.display = 'flex';
     };
@@ -1352,7 +1711,7 @@
         document.getElementById('helpModal').style.display = 'none';
     };
 
-    // ১২. স্বাগতম ও প্রমোশনাল পপআপ মডাল বন্ধের লজিক
+    // ১৯. স্বাগতম ও প্রমোশনাল পপআপ মডাল বন্ধের লজিক
     window.closeAttentionModal = () => {
         const attModal = document.getElementById('attentionModal');
         if (attModal) attModal.style.display = 'none';
