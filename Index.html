@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta name="google-site-verification" content="lQflewUgxljsw8dCjAh9G8hWzAPsT9tpx6WveGGOxxs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieGor - Premium Movies & Series</title>
@@ -973,7 +972,9 @@
     
     let subLink = "https://t.me/Viral_Video_Box24"; // default fallback
     let globalVideoData = {};
-    let isAdultMode = localStorage.getItem('isAdultMode') === 'true';
+    
+    // localStorage-এর বদলে sessionStorage ব্যবহার করা হয়েছে যাতে ব্রাউজার রি-ওপেন করলে এটি বন্ধ থাকে
+    let isAdultMode = sessionStorage.getItem('isAdultMode') === 'true';
     let countedViews = {}; // এক পেজ সেশনে বারবার কাউন্ট হওয়া বন্ধ করার ইন-মেমোরি অবজেক্ট
     let activeLang = 'en'; // ডিফল্ট ইংরেজি
 
@@ -1086,13 +1087,13 @@
                 const rawCategory = v.category || 'bangla';
                 const isAdult = v.isAdult === true || isAdultCategory(rawCategory);
 
-                // video অ্যাডাল্ট হলে স্বয়ংক্রিয়ভাবে ১৮+ মোড চালু হবে
+                // ভিডিওটি যদি অ্যাডাল্ট টাইপের হয়, তাহলে শুধুমাত্র এই সেশনের জন্য ১৮+ মোড চালু হবে
                 if (isAdult) {
                     isAdultMode = true;
-                    localStorage.setItem('isAdultMode', 'true');
+                    sessionStorage.setItem('isAdultMode', 'true');
                 } else {
                     isAdultMode = false;
-                    localStorage.setItem('isAdultMode', 'false');
+                    sessionStorage.setItem('isAdultMode', 'false');
                 }
 
                 // মোড সুইচ বাটনের স্টাইল আপডেট করা
@@ -1296,7 +1297,7 @@
             startBannerAutoCycle();
         }
 
-        //6. সিলেক্ট করা একটিভ ভিউ লোড করা
+        // ৬. সিলেক্ট করা একটিভ ভিউ লোড করা
         renderActiveView(categoriesMap);
     }
 
@@ -1699,7 +1700,7 @@
             e.stopImmediatePropagation();
         }
         isAdultMode = !isAdultMode;
-        localStorage.setItem('isAdultMode', isAdultMode ? 'true' : 'false');
+        sessionStorage.setItem('isAdultMode', isAdultMode ? 'true' : 'false');
         
         selectedCategory = 'Home'; // মোড পরিবর্তন করলে ক্যাটাগরি পেজ থেকে সরাসরি হোমপেজে রি-ডাইরেক্ট হবে
         currentPage = 1;
